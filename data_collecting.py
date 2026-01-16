@@ -267,6 +267,16 @@ MIZO_SENTENCES = [
 # ============================================
 
 if __name__ == "__main__":
+    print("Default input device index:", sd.default.device[0])
+    print("Default output device index:", sd.default.device[1])
+
+    print("\nAll audio devices:")
+    print(sd.query_devices())
+
+    print("\nCurrent input device info:")
+    print(sd.query_devices(sd.default.device[0], "input"))
+    print("----" * 70)
+
     print("\n" + "=" * 70)
     print("🎯 MIZO SPEECH TRAINING DATA COLLECTION")
     print("=" * 70)
