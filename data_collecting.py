@@ -219,48 +219,53 @@ class MizoDataCollector:
 # ============================================
 
 MIZO_SENTENCES = [
-    # Basic greetings
-    ("Hlo, i dam ang em?", "Hello, how are you?"),
-    ("I lum", "I am fine"),
-    ("Engvei mai lo", "Good morning"),
-    ("Engzahlai mai lo", "Good afternoon"),
-    ("Engduhchhuah mai lo", "Good evening"),
-
-    # Common phrases
-    ("Khum inngaihva che", "Excuse me"),
-    ("Zai lo leh", "Thank you"),
-    ("Hrechiang tawk", "Welcome"),
-    ("I hla mi", "I am Mizo"),
-    ("Mizoram hi pian ang che", "Mizoram is beautiful"),
-
-    # Questions
-    ("I min a lo", "What is your name?"),
-    ("Nang chu eng hma a lo?", "Where are you from?"),
-    ("Enge i tih?", "What are you doing?"),
-    ("I phone a kal em?", "Do you have a phone?"),
-    ("Nang chu teacher em?", "Are you a teacher?"),
-
-    # Answers
-    ("I min chu John a ni", "My name is John"),
-    ("I chu Aizawl a kung", "I am from Aizawl"),
-    ("I chu ofisah i tih", "I am working in an office"),
-    ("I phone a kal", "I have a phone"),
-    ("Ai, i teacher a ni", "Yes, I am a teacher"),
-
-    # Statements
-    ("Tuna kal an dah a", "They arrived yesterday"),
-    ("I zawhnak chu mahni a che", "I like studying"),
-    ("Nang chu engine pan man em?", "Are you coming tomorrow?"),
-    ("I bu entir nia an lo", "They don't understand"),
-    ("Mizo zing hi thiamthat tak a ni", "The Mizo culture is very unique"),
-
-    # More complex sentences
-    ("I pawl chu school a kal te a ni", "My group is going to school"),
-    ("Aizawl ah ziarah rawh", "Come visit Aizawl"),
-    ("Hmang zawhna chu a pawimawh tak", "Knowledge is very important"),
-    ("Mizo mi te chu hriselna zawk a nih", "Mizo people are very hospitable"),
-    ("I family chu a awm tak", "I have a big family"),
+    ("Ka hre lo", "I don't know"),
+    ("Enge i tih?", "What are you doing?")
 ]
+
+# MIZO_SENTENCES = [
+#     # Basic greetings
+#     ("Hlo, i dam ang em?", "Hello, how are you?"),
+#     ("I lum", "I am fine"),
+#     ("Engvei mai lo", "Good morning"),
+#     ("Engzahlai mai lo", "Good afternoon"),
+#     ("Engduhchhuah mai lo", "Good evening"),
+#
+#     # Common phrases
+#     ("Khum inngaihva che", "Excuse me"),
+#     ("Zai lo leh", "Thank you"),
+#     ("Hrechiang tawk", "Welcome"),
+#     ("I hla mi", "I am Mizo"),
+#     ("Mizoram hi pian ang che", "Mizoram is beautiful"),
+#
+#     # Questions
+#     ("I min a lo", "What is your name?"),
+#     ("Nang chu eng hma a lo?", "Where are you from?"),
+#     ("Enge i tih?", "What are you doing?"),
+#     ("I phone a kal em?", "Do you have a phone?"),
+#     ("Nang chu teacher em?", "Are you a teacher?"),
+#
+#     # Answers
+#     ("I min chu John a ni", "My name is John"),
+#     ("I chu Aizawl a kung", "I am from Aizawl"),
+#     ("I chu ofisah i tih", "I am working in an office"),
+#     ("I phone a kal", "I have a phone"),
+#     ("Ai, i teacher a ni", "Yes, I am a teacher"),
+#
+#     # Statements
+#     ("Tuna kal an dah a", "They arrived yesterday"),
+#     ("I zawhnak chu mahni a che", "I like studying"),
+#     ("Nang chu engine pan man em?", "Are you coming tomorrow?"),
+#     ("I bu entir nia an lo", "They don't understand"),
+#     ("Mizo zing hi thiamthat tak a ni", "The Mizo culture is very unique"),
+#
+#     # More complex sentences
+#     ("I pawl chu school a kal te a ni", "My group is going to school"),
+#     ("Aizawl ah ziarah rawh", "Come visit Aizawl"),
+#     ("Hmang zawhna chu a pawimawh tak", "Knowledge is very important"),
+#     ("Mizo mi te chu hriselna zawk a nih", "Mizo people are very hospitable"),
+#     ("I family chu a awm tak", "I have a big family"),
+# ]
 
 # ============================================
 # MAIN COLLECTION WORKFLOW
