@@ -17,6 +17,10 @@ from datasets import Dataset, Audio
 from dataclasses import dataclass
 from typing import Dict, List, Union
 import librosa
+import os
+
+os.environ["PYTORCH_ENABLE_MPS_FALLBACK"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = ""
 
 
 # ============================================
@@ -51,7 +55,7 @@ def load_mizo_dataset(json_file, split_ratio=0.9):
     dataset = Dataset.from_dict(filtered_data)
 
     # Cast audio column to Audio feature (handles loading automatically)
-    dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))
+    # dataset = dataset.cast_column("audio", Audio(sampling_rate=16000))
 
     # Split into train/validation
     if len(dataset) < 10:
@@ -85,10 +89,8 @@ class DataCollatorCTCWithPadding:
         label_features = []
 
         for feature in features:
-            # Audio is already loaded by Dataset.cast_column(Audio)
-            audio = feature["audio"]["array"]
+            audio, sr = librosa.load(feature["audio"], sr=16000)
             input_features.append({"input_values": audio})
-            # Labels are already tokenized as "labels" key
             label_features.append({"input_ids": feature["labels"]})
 
         # Pad input features
@@ -99,12 +101,11 @@ class DataCollatorCTCWithPadding:
         )
 
         # Pad labels
-        with self.processor.as_target_processor():
-            labels_batch = self.processor.tokenizer.pad(
-                label_features,
-                padding=self.padding,
-                return_tensors="pt",
-            )
+        labels_batch = self.processor.tokenizer.pad(
+            label_features,
+            padding=self.padding,
+            return_tensors="pt",
+        )
 
         # Replace padding with -100 to ignore loss correctly
         labels = labels_batch["input_ids"].masked_fill(
@@ -168,7 +169,7 @@ class MizoASRTrainer:
         # Freeze feature encoder (only train adapter + LM head)
         self.model.freeze_feature_encoder()
 
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device("cpu")
         self.model.to(self.device)
 
         print(f"✅ Model loaded on {self.device}")
@@ -181,17 +182,23 @@ class MizoASRTrainer:
         """Prepare dataset by tokenizing text"""
 
         def prepare_example(batch):
-            # Tokenize text
-            with self.processor.as_target_processor():
-                batch["labels"] = self.processor.tokenizer(batch["text"]).input_ids
-            return batch
+            labels = self.processor(
+                text=batch["text"],
+                return_attention_mask=False
+            ).input_ids
+            return {"labels": labels}
 
+        # Map adds "labels", then we manually remove only "text"
         dataset = dataset.map(
             prepare_example,
-            remove_columns=["text"],  # Only remove text, keep audio
             desc="Tokenizing text"
         )
 
+        # Now remove text column explicitly
+        dataset = dataset.remove_columns(["text"])
+
+        print(f"DEBUG: Dataset columns after map: {dataset.column_names}")
+        print("DEBUG columns:", dataset.column_names)
         return dataset
 
     def train(self, train_dataset, eval_dataset, num_epochs=30, batch_size=4):
@@ -227,6 +234,7 @@ class MizoASRTrainer:
             metric_for_best_model="wer",
             greater_is_better=False,
             push_to_hub=False,
+            remove_unused_columns=False,
             report_to=["tensorboard"],
         )
 
@@ -312,7 +320,7 @@ if __name__ == "__main__":
         train_dataset=train_dataset,
         eval_dataset=eval_dataset,
         num_epochs=num_epochs,
-        batch_size=4  # Reduce to 2 if out of memory
+        batch_size=1  # Reduce to 2 if out of memory
     )
 
     print("\n🎉 FINE-TUNING COMPLETE!")
