@@ -166,10 +166,19 @@ class MizoASRTrainer:
         # self.processor.tokenizer.set_target_lang("miz")
         # self.model.load_adapter("miz")
 
-        # Freeze feature encoder (only train adapter + LM head)
-        self.model.freeze_feature_encoder()
+        # Freeze the entire model; train only the CTC head
+        # Freeze the entire model to save GPU memory
+        for param in self.model.parameters():
+            param.requires_grad = False
 
-        self.device = torch.device("cpu")
+        # Unfreeze ONLY the CTC (language modeling) head
+        for param in self.model.lm_head.parameters():
+            param.requires_grad = True
+
+        # Enable gradient checkpointing to reduce memory usage
+        self.model.gradient_checkpointing_enable()
+
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.model.to(self.device)
 
         print(f"✅ Model loaded on {self.device}")
