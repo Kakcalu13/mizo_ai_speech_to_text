@@ -245,8 +245,7 @@ class MizoASRTrainer:
             args=training_args,
             compute_metrics=lambda pred: compute_metrics(pred, self.processor),
             train_dataset=train_dataset,
-            eval_dataset=eval_dataset,
-            tokenizer=self.processor.feature_extractor,
+            eval_dataset=eval_dataset
         )
 
         # Train
