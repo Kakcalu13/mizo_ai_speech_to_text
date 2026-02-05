@@ -1,3 +1,15 @@
+# Virtual environments
+venv/
+mizo_asr/
+
+# Python junk
+__pycache__/
+*.pyc
+*.pyo
+
+# OS junk
+.DS_Store
+
 # Temporary and binary files
 *~
 *.py[cod]
