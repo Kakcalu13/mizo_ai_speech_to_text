@@ -1,0 +1,14 @@
+{
+  "audio": [
+    "mizo_training_data/audio/SAA_20260204_150449.opus",
+    "mizo_training_data/audio/SAA_20260204_150524.opus"
+  ],
+  "text": [
+    "Ka hre lo",
+    "Enge i tih?"
+  ],
+  "speaker_id": [
+    "SAA",
+    "SAA"
+  ]
+}
